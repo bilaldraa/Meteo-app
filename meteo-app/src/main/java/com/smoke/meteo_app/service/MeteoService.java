@@ -17,14 +17,13 @@ public class MeteoService {
 
     public static final String METEO_BASE_URI = "https://api.open-meteo.com/v1";
 
-    private RestClient meteoRestClient;
 
     @Autowired
     private MeteoRepository meteoRepository;
 
 
-    public MeteoService(RestClient.Builder restClientBuilder) {
-        this.meteoRestClient = restClientBuilder.baseUrl(METEO_BASE_URI).build();
+    public MeteoService() {
+
     }
 
 
@@ -59,8 +58,9 @@ public class MeteoService {
 
     public MeteoDto fetchDataFromMeteoApi(double lat, double lon) {
 
+        RestClient meteoRestClient  = RestClient.builder().baseUrl(METEO_BASE_URI).build();
 
-        Map response = this.meteoRestClient.get()
+        Map response = meteoRestClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/forecast")
                         .queryParam("latitude", lat)
