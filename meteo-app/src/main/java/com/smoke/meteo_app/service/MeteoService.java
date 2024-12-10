@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -21,9 +22,11 @@ public class MeteoService {
     @Autowired
     private MeteoRepository meteoRepository;
 
+    @Autowired
+    private  Clock clock;
+
 
     public MeteoService() {
-
     }
 
 
@@ -132,7 +135,7 @@ public class MeteoService {
     }
 
     public boolean dateIsOneMinuteOlder(LocalDateTime savedDate) {
-        return savedDate.plusMinutes(1).isBefore(LocalDateTime.now());
+        return savedDate.plusMinutes(1).isBefore(LocalDateTime.now(clock));
     }
 
     public Meteo deleteMeteo(double lat, double lon){
